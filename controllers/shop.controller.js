@@ -35,6 +35,7 @@ exports.getEditProduct = (req,res,next) => {
     const prodId = req.params.productId
     Product.findById(prodId)
     .then(([rowData, fieldData]) => {
+        console.log(rowData[0]);
         res.render('shop/add-edit-product', {
             pageTitle: 'Edit Product',
             editing: editMode,

@@ -14,6 +14,5 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(shopRoute)
 
-
 const PORT = process.env.PORT || 8000
 app.listen(PORT)
