@@ -23,6 +23,9 @@ module.exports = class Products {
 
     static deleteById(id){
         // return db.execute('DELETE FROM products WHERE products.id = ?', [id])
+        const db = getDB()
+        const objectId = new mongodb.ObjectId(id)
+        return db.collection('products').deleteOne({_id:objectId})
     }
 
     //fetch all products
