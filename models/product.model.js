@@ -10,26 +10,36 @@ module.exports = class Products {
         this.price = price
     }
 
-    save(){
+    save() {
         // return db.execute('INSERT INTO products (title, description, imageUrl, price) VALUES (?, ?, ?, ?)', [this.title, this.description, this.imageUrl, this.price])
 
         const db = getDB()
         return db.collection('products').insertOne(this)
     }
 
-    edit(){
+    edit(id) {
         // return db.execute('UPDATE products SET title=?, description=?, imageUrl=?, price=? WHERE id = ?', [this.title, this.description, this.imageUrl, this.price, this.id])
+        const db = getDB()
+        const objectId = new mongodb.ObjectId(id)
+        db.collection('products').updateOne({ _id: objectId }, {
+            $set: {
+                title: this.title,
+                imageUrl: this.imageUrl,
+                description: this.description,
+                price: this.price
+            }
+        })
     }
 
-    static deleteById(id){
+    static deleteById(id) {
         // return db.execute('DELETE FROM products WHERE products.id = ?', [id])
         const db = getDB()
         const objectId = new mongodb.ObjectId(id)
-        return db.collection('products').deleteOne({_id:objectId})
+        return db.collection('products').deleteOne({ _id: objectId })
     }
 
     //fetch all products
-    static fetchAll(){
+    static fetchAll() {
         // return db.execute('SELECT * FROM products')
         const db = getDB()
         return db.collection('products').find().toArray()

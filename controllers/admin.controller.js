@@ -15,27 +15,47 @@ exports.postAddProduct = (req,res,next) => {
     res.redirect('/')
 }
 
+//sql
+// exports.getEditProduct = (req,res,next) => {
+//     const editMode = req.query.edit
+//     if(!editMode) res.redirect('/')
+
+//     const prodId = req.params.productId
+//     Product.findById(prodId)
+//     .then(([rowData, fieldData]) => {
+//         console.log(rowData[0]);
+//         res.render('shop/add-edit-product', {
+//             pageTitle: 'Edit Product',
+//             editing: editMode,
+//             product: rowData[0]
+//         })
+//     })
+//     .catch(err => console.log(err))
+// }
+
+//MongoDB
 exports.getEditProduct = (req,res,next) => {
     const editMode = req.query.edit
     if(!editMode) res.redirect('/')
 
     const prodId = req.params.productId
     Product.findById(prodId)
-    .then(([rowData, fieldData]) => {
-        console.log(rowData[0]);
+    .then((product) => {
+        console.log(product);
         res.render('shop/add-edit-product', {
             pageTitle: 'Edit Product',
             editing: editMode,
-            product: rowData[0]
+            product: product
         })
     })
     .catch(err => console.log(err))
 }
 
 exports.postEditProduct = (req,res,next) => {
+    const prodId = req.body.productId
     const {title, imageUrl, description, price} = req.body
     const updatedProduct = new Product(title, imageUrl, description, price)
-    updatedProduct.edit()
+    updatedProduct.edit(prodId)
     res.redirect('/')
 }
 
